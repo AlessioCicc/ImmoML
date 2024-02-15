@@ -19,7 +19,7 @@ st.sidebar.header('User Input Parameters')
 number = st.sidebar.number_input('Insert a number', min_value=1, value=10)
 
 # Main section
-st.title('Your Streamlit App')
+st.title('Streamlit App delle Trombe')
 
 # Load your data
 data = load_data(number)
