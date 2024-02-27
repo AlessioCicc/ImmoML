@@ -71,7 +71,7 @@ st.write('### Ricerca Immobili Basata sui Parametri')
 st.write('I risultati della ricerca verranno visualizzati qui...')
 
 # Load your data
-data = load_data(number)
+data = load_data(location)
 
 # Display data on the app
 st.write('### Data', data)
