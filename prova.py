@@ -11,44 +11,64 @@ def load_data(n_rows):
     })
     return data
 
+
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Your App Title', layout='wide')
 
 # Sidebar for user inputs
-#st.sidebar.header('User Input Parameters')
-#number = st.sidebar.number_input('Insert a number', min_value=1, value=10)
+st.sidebar.header('Parametri di Ricerca Immobili')
 
-# Sidebar for user inputs
-st.sidebar.header('User Input Parameters')
-
-# Original number input
-number = st.sidebar.number_input('Insert a number', min_value=1, value=10)
-
-# New inputs
 # 1. Location Input
-location = st.sidebar.text_input('Enter Location Address')
+location = st.sidebar.text_input('Inserisci Indirizzo')
 
-# 2. Radius Input
-radius = st.sidebar.number_input('Enter Radius', min_value=0.0, value=1.0)
-radius_unit = st.sidebar.selectbox('Select Unit for Radius', ['Kilometers', 'Miles'])
+# 2. Space Range Input
+min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
 
 # 3. Number of Rooms Input
-min_rooms, max_rooms = st.sidebar.slider('Select Range of Rooms', 1, 10, (2, 3))
+min_rooms, max_rooms = st.sidebar.slider('Seleziona Range Numero di Stanze', 1, 10, (2, 4))
 
-# 4. Space Input
-min_space, max_space = st.sidebar.slider('Select Space Range (in sq meters)', 10, 500, (60, 80))
-space_unit = st.sidebar.selectbox('Select Unit for Space', ['Square Meters', 'Square Feet'])
+# 4. Number of Bathrooms Input
+min_bathrooms, max_bathrooms = st.sidebar.slider('Seleziona Range Numero di Bagni', 1, 5, (1, 2))
+
+# 5. Condition Input
+condition = st.sidebar.selectbox('Stato', ['Buono', 'Nuova Costruzione', 'Da Ristrutturare'])
+
+# 6. Floor Input
+floor = st.sidebar.selectbox('Piano', ['Seminterrato', 'Piano terra', 'Intermedi', 'Attico'])
+
+# 7. Elevator Input
+elevator = st.sidebar.selectbox('Ascensore', ['SI', 'NO'])
+
+# 8. Garage Input
+garage = st.sidebar.selectbox('Garage', ['SI', 'NO'])
+
+# 9. Energy Efficiency Range Input
+# Assuming energy efficiency classes range from A to G
+energy_efficiency = st.sidebar.select_slider('Efficienza Energetica', options=['A', 'B', 'C', 'D', 'E', 'F', 'G'])
+
+# 10. Year of Construction Range Input
+current_year = pd.Timestamp.now().year
+min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, current_year, (1980, current_year))
 
 # Display the inputs
-st.sidebar.write('### Selected Parameters')
-st.sidebar.write(f'Location: {location}')
-st.sidebar.write(f'Radius: {radius} {radius_unit}')
-st.sidebar.write(f'Number of Rooms: {min_rooms} to {max_rooms}')
-st.sidebar.write(f'Space: {min_space} to {max_space} {space_unit}')
-
+st.sidebar.write('### Parametri Selezionati')
+st.sidebar.write(f'Località: {location}')
+st.sidebar.write(f'Superficie: da {min_space} a {max_space} mq')
+st.sidebar.write(f'Numero di Stanze: da {min_rooms} a {max_rooms}')
+st.sidebar.write(f'Numero di Bagni: da {min_bathrooms} a {max_bathrooms}')
+st.sidebar.write(f'Stato: {condition}')
+st.sidebar.write(f'Piano: {floor}')
+st.sidebar.write(f'Ascensore: {elevator}')
+st.sidebar.write(f'Garage: {garage}')
+st.sidebar.write(f'Efficienza Energetica: Classe {energy_efficiency}')
+st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 
 # Main section
-st.title('Streamlit App delle Trombe')
+st.title('Applicazione Streamlit per Ricerca Immobili')
+
+# Placeholder for Data Display and Further Analysis
+st.write('### Ricerca Immobili Basata sui Parametri')
+st.write('I risultati della ricerca verranno visualizzati qui...')
 
 # Load your data
 data = load_data(number)
