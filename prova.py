@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import requests
 import folium
-import folium.plugins import HeatMap
+from folium.plugins import HeatMap
 import algoritmo
 
 # Function to load data (dummy example)
