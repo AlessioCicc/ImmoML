@@ -80,7 +80,7 @@ current_year = pd.Timestamp.now().year
 min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, current_year, (1980, current_year))
 
 # Chiama la funzione process_data
-processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
+#processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
 
 # Display the inputs
 st.sidebar.write('### Parametri Selezionati')
