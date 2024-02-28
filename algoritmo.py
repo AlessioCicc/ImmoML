@@ -36,7 +36,7 @@ def process_data(location=None, min_space=None, max_space=None, min_rooms=None, 
     return data
 
 
-def generate_dummy_heatmap_data(lat, lon, num_points=100, spread=0.01):
+def generate_dummy_heatmap_data(lat=41.8797737, lon=12.4674504, num_points=100, spread=0.01):
     data = []
     for _ in range(num_points):
         dummy_lat = lat + random.uniform(-spread, spread)
