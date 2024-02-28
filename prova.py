@@ -102,7 +102,7 @@ st.title('Applicazione Streamlit per Ricerca Immobili')
 st.write('I risultati della ricerca verranno visualizzati qui...')
 
 # Display data on the app
-st.write('### Risultato', processed_data)
+st.write('### Risultato', 10) #processed_data)
 
 # Crea una mappa centrata sull'indirizzo specificato
 mappa = folium.Map(location=[lat, lon], zoom_start=13)
