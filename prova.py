@@ -5,7 +5,6 @@ import numpy as np
 import requests
 import folium
 from folium.plugins import HeatMap
-from streamlit.components.v1 import html
 import algoritmo
 
 # Function to load data (dummy example)
@@ -119,8 +118,5 @@ if location:
 # Aggiungi la heatmap alla mappa
 HeatMap(heat_data).add_to(mappa)
 
-# Converti la mappa Folium in HTML
-mappa_html = mappa._repr_html_()
-
 # Visualizza la mappa in Streamlit
-st_folium(mappa_html, width=700, height=500)
+st_folium(mappa, width=700, height=500)
