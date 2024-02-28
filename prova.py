@@ -28,11 +28,11 @@ def get_geocode(address):
             lon = data[0]['lon']
             return lat, lon
         else:
-            return None, None
+            # Imposta valori di default per lat e lon
+            lat, lon = 41.8797737, 12.4674504
     else:
-        return None, None
-
-lat=41.8797737, lon=12.4674504
+        # Imposta valori di default per lat e lon
+        lat, lon = 41.8797737, 12.4674504
 
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Your App Title')
