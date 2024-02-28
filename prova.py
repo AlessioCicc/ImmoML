@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import requests
+import algoritmo
 
 # Function to load data (dummy example)
 def load_data(n_rows):
@@ -74,6 +75,9 @@ energy_efficiency = st.sidebar.select_slider('Efficienza Energetica', options=['
 current_year = pd.Timestamp.now().year
 min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, current_year, (1980, current_year))
 
+# Chiama la funzione process_data
+processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
+
 # Display the inputs
 st.sidebar.write('### Parametri Selezionati')
 st.sidebar.write(f'Località: {location}')
@@ -91,14 +95,10 @@ st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
-st.write('### Ricerca Immobili Basata sui Parametri')
 st.write('I risultati della ricerca verranno visualizzati qui...')
 
-# Load your data
-data = load_data(10)
-
 # Display data on the app
-st.write('### Data', data)
+st.write('### Risultato', processed_data)
 
 # Plotting data (example)
 st.line_chart(data)
