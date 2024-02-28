@@ -32,6 +32,8 @@ def get_geocode(address):
     else:
         return None, None
 
+lat=41.8797737, lon=12.4674504
+
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Your App Title')
 
