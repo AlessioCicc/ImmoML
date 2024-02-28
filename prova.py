@@ -3,6 +3,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import requests
+import folium
+import folium.plugins import HeatMap
 import algoritmo
 
 # Function to load data (dummy example)
@@ -100,11 +102,15 @@ st.write('I risultati della ricerca verranno visualizzati qui...')
 # Display data on the app
 st.write('### Risultato', processed_data)
 
-# Plotting data (example)
-st.line_chart(data)
+# Crea una mappa centrata sull'indirizzo specificato
+mappa = folium.Map(location=[lat, lon], zoom_start=13)
 
-# Any other analysis you want to add
-st.write('### Additional Analysis')
-st.write('Your additional analysis goes here...')
+# Ottieni i dati per la heatmap
+heatmap_data = algoritmo.get_heatmap_data()
+heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data]
 
-# Use this space to add more interactivity and features to your app
+# Aggiungi la heatmap alla mappa
+HeatMap(heat_data).add_to(mappa)
+
+# Visualizza la mappa in Streamlit
+st_folium(mappa, width=700, height=500)
