@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import requests
 
 # Function to load data (dummy example)
 def load_data(n_rows):
@@ -11,6 +12,14 @@ def load_data(n_rows):
     })
     return data
 
+# Funzione per ottenere suggerimenti di indirizzo da Photon
+def get_address_suggestions(query):
+    if query:
+        url = f"https://photon.komoot.io/api/?q={query}"
+        response = requests.get(url)
+        suggestions = response.json()
+        return [suggestion['properties']['name'] for suggestion in suggestions['features']]
+    return []
 
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Your App Title', layout='wide')
@@ -20,6 +29,11 @@ st.sidebar.header('Parametri di Ricerca Immobili')
 
 # 1. Location Input
 location = st.sidebar.text_input('Inserisci Indirizzo')
+
+# Ottieni e mostra i suggerimenti
+suggestions = get_address_suggestions(location)
+if suggestions:
+    selected_address = st.selectbox("Suggerimenti:", suggestions)
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
