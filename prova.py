@@ -12,29 +12,26 @@ def load_data(n_rows):
     })
     return data
 
-# Funzione per ottenere suggerimenti di indirizzo da Photon
-def get_address_suggestions(query):
-    if query:
-        url = f"https://photon.komoot.io/api/?q={query}"
-        response = requests.get(url)
-        suggestions = response.json()
-        return [suggestion['properties']['name'] for suggestion in suggestions['features']]
-    return []
+# Funzione per ottenere le coordinate geografiche dall'indirizzo
+def get_coordinates(address):
+    url = f"https://photon.komoot.io/api/?q={address}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        results = response.json()
+        if results['features']:
+            first_result = results['features'][0]
+            coordinates = first_result['geometry']['coordinates']
+            return coordinates[1], coordinates[0]  # latitudine, longitudine
+    return None, None
 
 # Streamlit page configuration (optional)
-st.set_page_config(page_title='Your App Title', layout='wide')
+st.set_page_config(page_title='Your App Title')
 
 # Sidebar for user inputs
 st.sidebar.header('Parametri di Ricerca Immobili')
 
 # 1. Location Input
 location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
-
-# Ottieni e mostra i suggerimenti in un menu a tendina
-if location:  # Mostra i suggerimenti solo se l'utente ha digitato qualcosa
-    suggestions = get_address_suggestions(location)
-    if suggestions:
-        selected_address = st.selectbox("Suggerimenti:", suggestions, key="address_select")
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
@@ -77,6 +74,14 @@ st.sidebar.write(f'Ascensore: {elevator}')
 st.sidebar.write(f'Garage: {garage}')
 st.sidebar.write(f'Efficienza Energetica: Classe {energy_efficiency}')
 st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
+
+# Pulsante per avviare la verifica dell'indirizzo
+if st.button("Verifica Indirizzo"):
+    lat, lon = get_coordinates(address)
+    if lat is not None and lon is not None:
+        st.success(f"Indirizzo trovato! Coordinate: Latitudine {lat}, Longitudine {lon}")
+    else:
+        st.error("Indirizzo non trovato. Per favore, inserisci un indirizzo valido.")
 
 # Main section
 st.title('Applicazione Streamlit per Ricerca Immobili')
