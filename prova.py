@@ -106,8 +106,12 @@ st.write('### Risultato', processed_data)
 mappa = folium.Map(location=[lat, lon], zoom_start=13)
 
 # Ottieni i dati per la heatmap
-heatmap_data = algoritmo.get_heatmap_data()
-heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data]
+if location:
+    lat, lon = get_geocode(location)
+    if lat and lon:
+        lat, lon = float(lat), float(lon)
+        heatmap_data = algoritmo.generate_dummy_heatmap_data(lat, lon)
+        heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data]
 
 # Aggiungi la heatmap alla mappa
 HeatMap(heat_data).add_to(mappa)
