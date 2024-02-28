@@ -28,12 +28,13 @@ st.set_page_config(page_title='Your App Title', layout='wide')
 st.sidebar.header('Parametri di Ricerca Immobili')
 
 # 1. Location Input
-location = st.sidebar.text_input('Inserisci Indirizzo')
+location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 
-# Ottieni e mostra i suggerimenti
-suggestions = get_address_suggestions(location)
-if suggestions:
-    selected_address = st.selectbox("Suggerimenti:", suggestions)
+# Ottieni e mostra i suggerimenti in un menu a tendina
+if location:  # Mostra i suggerimenti solo se l'utente ha digitato qualcosa
+    suggestions = get_address_suggestions(location)
+    if suggestions:
+        selected_address = st.selectbox("Suggerimenti:", suggestions, key="address_select")
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
