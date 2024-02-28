@@ -1,6 +1,6 @@
 import random
 
-def process_data(num_points=100, spread=0.01, location=None, min_space=None, max_space=None, min_rooms=None, max_rooms=None, min_bathrooms=None, max_bathrooms=None, condition=None, floor=None, elevator=None, garage=None, energy_efficiency=None, min_year=None, max_year=None):
+def process_data(location=None, min_space=None, max_space=None, min_rooms=None, max_rooms=None, min_bathrooms=None, max_bathrooms=None, condition=None, floor=None, elevator=None, garage=None, energy_efficiency=None, min_year=None, max_year=None):
     # Qui inserisci la logica per elaborare i dati in base agli input
     processed_results = {
         'location': location if location else "Non specificato",
@@ -19,6 +19,9 @@ def process_data(num_points=100, spread=0.01, location=None, min_space=None, max
     Returns:
     list of dicts: Lista di coordinate e valori.
     """
+
+    num_points=100, spread=0.01
+    
     data = []
     for _ in range(num_points):
         # Genera coordinate casuali intorno alla posizione centrale
