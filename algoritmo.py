@@ -20,7 +20,8 @@ def process_data(location=None, min_space=None, max_space=None, min_rooms=None, 
     list of dicts: Lista di coordinate e valori.
     """
 
-    num_points=100, spread=0.01
+    num_points=100
+    spread=0.01
     
     data = []
     for _ in range(num_points):
