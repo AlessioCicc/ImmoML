@@ -1,4 +1,5 @@
 streamlit
 folium
 pandas
+st_folium
 # altre librerie di cui hai bisogno
