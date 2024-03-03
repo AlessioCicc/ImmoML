@@ -7,6 +7,9 @@ import folium
 from folium.plugins import HeatMap
 import algoritmo
 
+# Inizializza lat e lon con valori di default
+lat, lon = 41.8797737, 12.4674504  # Posizione di default (es. Roma)
+
 # Function to load data (dummy example)
 def load_data(n_rows):
     data = pd.DataFrame({
@@ -27,12 +30,6 @@ def get_geocode(address):
             lat = data[0]['lat']
             lon = data[0]['lon']
             return lat, lon
-        else:
-            # Imposta valori di default per lat e lon
-            lat, lon = 41.8797737, 12.4674504
-    else:
-        # Imposta valori di default per lat e lon
-        lat, lon = 41.8797737, 12.4674504
 
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Your App Title')
@@ -45,6 +42,7 @@ location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 
 if location:
     lat, lon = get_geocode(location)
+    lat, lon = float(lat), float(lon)  # Assicurati che siano float
     if lat and lon:
         st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
     else:
