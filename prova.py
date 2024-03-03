@@ -5,6 +5,7 @@ import numpy as np
 import requests
 import folium
 from folium.plugins import HeatMap
+from streamlit_folium import st_folium
 import algoritmo
 
 # Inizializza lat e lon con valori di default
