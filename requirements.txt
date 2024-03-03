@@ -1,5 +1,6 @@
 streamlit
 folium
 pandas
-st_folium
+streamlit-folium
+
 # altre librerie di cui hai bisogno
