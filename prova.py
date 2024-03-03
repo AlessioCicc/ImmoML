@@ -6,7 +6,11 @@ import requests
 import folium
 from folium.plugins import HeatMap
 from streamlit_folium import st_folium
-import algoritmo
+import pickle
+
+filename = 'test_model.pkl'
+with open(filename, 'rb') as file:
+    loaded_model = pickle.load(file)
 
 # Inizializza lat e lon con valori di default
 lat, lon = 41.8797737, 12.4674504  # Posizione di default (es. Roma)
