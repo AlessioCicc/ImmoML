@@ -7,6 +7,7 @@ import folium
 from folium.plugins import HeatMap
 from streamlit_folium import st_folium
 import pickle
+import sklearn
 
 filename = 'test_model.pkl'
 with open(filename, 'rb') as file:
