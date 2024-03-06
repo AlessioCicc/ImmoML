@@ -9,9 +9,25 @@ from streamlit_folium import st_folium
 import pickle
 import sklearn
 
-filename = 'test_model.pkl'
+#dev
+filename = 'model&preproc.pkl'
 with open(filename, 'rb') as file:
-    loaded_model = pickle.load(file)
+    loaded_model, preproc = pickle.load(file)
+#X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
+'''
+bathrooms              object
+rooms                  object
+surface               float64
+price                 float64
+latitude              float64
+longitude             float64
+condition              object
+ascensore              object
+garage                 object
+piano                 float64'''
+#X_norm = preproc.transform(X)
+#prezzo = loaded_model.predict()
+#fine dev
 
 # Inizializza lat e lon con valori di default
 lat, lon = 41.8797737, 12.4674504  # Posizione di default (es. Roma)
