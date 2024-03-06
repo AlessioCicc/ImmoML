@@ -2,5 +2,5 @@ streamlit
 folium
 pandas
 streamlit-folium
-
+sklearn
 # altre librerie di cui hai bisogno
