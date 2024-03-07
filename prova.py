@@ -14,7 +14,6 @@ filename = 'model&preproc.pkl'
 with open(filename, 'rb') as infile:
     loaded_model, preproc = pickle.load(infile)
 #X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
-
 #bathrooms              object
 #rooms                  object
 #surface               float64
@@ -25,8 +24,10 @@ with open(filename, 'rb') as infile:
 #ascensore              object
 #garage                 object
 #piano                 float64
-#X_norm = preproc.transform(X)
-#prezzo = loaded_model.predict()
+X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],])
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+print(prezzo)
 #fine dev
 
 # Inizializza lat e lon con valori di default
