@@ -24,10 +24,10 @@ with open(filename, 'rb') as infile:
 #ascensore              object
 #garage                 object
 #piano                 float64
-X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
-X_norm = preproc.transform(X)
-prezzo = loaded_model.predict(X_norm)
-print(prezzo)
+#X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+#X_norm = preproc.transform(X)
+#prezzo = loaded_model.predict(X_norm)
+#print(prezzo)
 #fine dev
 
 # Inizializza lat e lon con valori di default
@@ -81,17 +81,21 @@ min_rooms, max_rooms = st.sidebar.slider('Seleziona Range Numero di Stanze', 1, 
 min_bathrooms, max_bathrooms = st.sidebar.slider('Seleziona Range Numero di Bagni', 1, 5, (1, 2))
 
 # 5. Condition Input
-condition = st.sidebar.selectbox('Stato', ['Buono', 'Nuova Costruzione', 'Da Ristrutturare'])
-
+condition_s = st.sidebar.selectbox('Stato', ['Buono', 'Nuova Costruzione', 'Da Ristrutturare'])
+condition_dict = {"Da Ristrutturare":0, "Buono":1, "buone condizioni":1,
+            "ottimo":2, "ottime condizioni":2, "recente costruzione":2, "di ristrutturazione":3, "ristrutturato":3, "nuovo":4,
+            "in costruzione":4, "nuove costruzioni":4, "Nuova Costruzione":4}
+condition = condition_dict[condition_s]
 # 6. Floor Input
-floor = st.sidebar.selectbox('Piano', ['Seminterrato', 'Piano terra', 'Intermedi', 'Attico'])
-
+floor_s = st.sidebar.selectbox('Piano', ['Seminterrato', 'Piano terra', 'Intermedi', 'Attico'])
+floor_dict = {"Piano terra":0, "rialzato":.5, "Seminterrato":.5, "Intermedi":1, "Attico":2}
+floor =  floor_dict[floor_s]
 # 7. Elevator Input
-elevator = st.sidebar.selectbox('Ascensore', ['SI', 'NO'])
-
+elevator_s = st.sidebar.selectbox('Ascensore', ['SI', 'NO'])
+elevator = 1 if elevator_s=="SI" else 0
 # 8. Garage Input
-garage = st.sidebar.selectbox('Garage', ['SI', 'NO'])
-
+garage_s = st.sidebar.selectbox('Garage', ['SI', 'NO'])
+garage = 1 if garage_s=="SI" else 0
 # 9. Energy Efficiency Range Input
 # Assuming energy efficiency classes range from A to G
 energy_efficiency = st.sidebar.select_slider('Efficienza Energetica', options=['A', 'B', 'C', 'D', 'E', 'F', 'G'])
@@ -101,6 +105,9 @@ current_year = pd.Timestamp.now().year
 min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, current_year, (1980, current_year))
 
 # Chiama la funzione process_data
+X = np.array([[max_space, lat, lon, max_bathrooms, max_rooms, condition, floor, elevator, garage],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
 #processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
 
 # Display the inputs
@@ -120,7 +127,7 @@ st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
-st.write('I risultati della ricerca verranno visualizzati qui...')
+st.write(f'{prezzo}')
 
 # Display data on the app
 st.write('### Risultato', 10) #processed_data)
