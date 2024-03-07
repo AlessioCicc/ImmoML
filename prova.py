@@ -11,20 +11,20 @@ import sklearn
 
 #dev
 filename = 'model&preproc.pkl'
-with open(filename, 'rb') as file:
-    loaded_model, preproc = pickle.load(file)
+with open(filename, 'rb') as infile:
+    loaded_model, preproc = pickle.load(infile)
 #X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
-'''
-bathrooms              object
-rooms                  object
-surface               float64
-price                 float64
-latitude              float64
-longitude             float64
-condition              object
-ascensore              object
-garage                 object
-piano                 float64'''
+
+#bathrooms              object
+#rooms                  object
+#surface               float64
+#price                 float64
+#latitude              float64
+#longitude             float64
+#condition              object
+#ascensore              object
+#garage                 object
+#piano                 float64
 #X_norm = preproc.transform(X)
 #prezzo = loaded_model.predict()
 #fine dev
