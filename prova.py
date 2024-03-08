@@ -106,11 +106,8 @@ min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, curren
 
 # Chiama la funzione process_data
 X = np.array([[max_space, lat, lon, max_bathrooms, max_rooms, condition, floor, elevator, garage],], dtype=object)
-st.write(f'X: {X}')
 X_norm = preproc.transform(X)
-st.write(f'X_norm: {X_norm}')
 prezzo = loaded_model.predict(X_norm)
-st.write(f'prezzo: {prezzo}')
 #processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
 
 # Display the inputs
@@ -130,7 +127,7 @@ st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
-st.write(f'{prezzo}')
+st.write(f'Prezzo al metro quadro: {prezzo[0]} € / m^2\n Prezzo: {prezzo[0]*max_space} €')
 
 # Display data on the app
 st.write('### Risultato', 10) #processed_data)
