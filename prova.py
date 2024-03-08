@@ -127,7 +127,7 @@ st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
-st.write(f'Prezzo al metro quadro: {prezzo[0]} € / m²\n Prezzo: {prezzo[0]*max_space} €')
+st.write(f'Prezzo al metro quadro: {int(round(prezzo[0],0))} € / m²\n Prezzo: {int(round(prezzo[0]*max_space, 0))} €')
 
 # Display data on the app
 st.write('### Risultato', 10) #processed_data)
