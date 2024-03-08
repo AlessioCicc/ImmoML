@@ -107,9 +107,10 @@ min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, curren
 # Chiama la funzione process_data
 X = np.array([[max_space, lat, lon, max_bathrooms, max_rooms, condition, floor, elevator, garage],], dtype=object)
 st.write(f'X: {X}')
-st.stop()
 X_norm = preproc.transform(X)
+st.write(f'X_norm: {X_norm}')
 prezzo = loaded_model.predict(X_norm)
+st.write(f'prezzo: {prezzo}')
 #processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
 
 # Display the inputs
