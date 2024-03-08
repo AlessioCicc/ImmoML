@@ -88,7 +88,7 @@ condition_dict = {"Da Ristrutturare":0, "Buono":1, "buone condizioni":1,
 condition = condition_dict[condition_s]
 # 6. Floor Input
 floor_s = st.sidebar.selectbox('Piano', ['Seminterrato', 'Piano terra', 'Intermedi', 'Attico'])
-floor_dict = {"Piano terra":0, "rialzato":.5, "Seminterrato":.5, "Intermedi":1, "Attico":2}
+floor_dict = {"Piano terra":0, "rialzato":1, "Seminterrato":1, "Intermedi":2, "Attico":3}
 floor =  floor_dict[floor_s]
 # 7. Elevator Input
 elevator_s = st.sidebar.selectbox('Ascensore', ['SI', 'NO'])
