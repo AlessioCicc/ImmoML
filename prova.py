@@ -24,7 +24,7 @@ X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "pia
 #ascensore              object
 #garage                 object
 #piano                 float64
-X = np.array([[150.0, lat, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X = np.array([[150.0, 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
 X_norm = preproc.transform(X)
 prezzo = loaded_model.predict(X_norm)
 #print(prezzo)
@@ -134,6 +134,25 @@ st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 
 # Crea una mappa centrata sull'indirizzo specificato
 mappa = folium.Map(location=[lat, lon], zoom_start=13)
+
+# Ottieni i dati dal modello ML
+X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
+#bathrooms              object
+#rooms                  object
+#surface               float64
+#price                 float64
+#latitude              float64
+#longitude             float64
+#condition              object
+#ascensore              object
+#garage                 object
+#piano                 float64
+X = np.array([[150.0, lat, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+
+
+
 
 # Ottieni i dati per la heatmap
 if location:
