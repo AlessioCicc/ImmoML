@@ -75,15 +75,12 @@ if location:
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
-surface = np.linspace(min_space, max_space, 5)
 
 # 3. Number of Rooms Input
 min_rooms, max_rooms = st.sidebar.slider('Seleziona Range Numero di Stanze', 1, 10, (2, 4))
-rooms = np.arange(min_rooms, max_rooms + 1)
 
 # 4. Number of Bathrooms Input
 min_bathrooms, max_bathrooms = st.sidebar.slider('Seleziona Range Numero di Bagni', 1, 5, (1, 2))
-bathrooms = np.arange(min_bathrooms, max_bathrooms + 1)
 
 # 5. Condition Input
 condition_s = st.sidebar.selectbox('Stato', ['Buono', 'Nuova Costruzione', 'Da Ristrutturare'])
@@ -153,8 +150,12 @@ X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "pia
 #ascensore              object
 #garage                 object
 #piano                 float64
+
+X_norm_list = [] 
+for surface in range(min_space, max_space): 
 X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
 X_norm = preproc.transform(X)
+X_norm_list.append(X_norm)
 prezzo = loaded_model.predict(X_norm)
 
 
