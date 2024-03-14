@@ -153,10 +153,11 @@ X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "pia
 
 X_norm_list = [] 
 for surface in range(min_space, max_space): 
-X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
-X_norm = preproc.transform(X)
-X_norm_list.append(X_norm)
-prezzo = loaded_model.predict(X_norm)
+    X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
+    X_norm = preproc.transform(X)
+    X_norm_list.append(X_norm)
+
+prezzo = loaded_model.predict(X_norm_list)
 
 
 
