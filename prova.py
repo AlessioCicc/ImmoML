@@ -136,8 +136,8 @@ prezzo = loaded_model.predict(X_norm)
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
-st.write(f'### Prezzo al metro quadro: {int(round(prezzo[0],0)):.} €/m²\n')
-st.write(f'### Prezzo: {int(round(prezzo[0]*max_space, 0)):.} €')
+st.write(f'Prezzo al metro quadro: {int(round(prezzo[0],0)):.} €/m²\n')
+st.write('### Prezzo: {int(round(prezzo[0]*max_space, 0)):.} €')
 
 # Crea una mappa centrata sull'indirizzo specificato
 mappa = folium.Map(location=[lat, lon], zoom_start=13)
