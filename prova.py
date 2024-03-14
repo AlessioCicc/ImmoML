@@ -148,7 +148,7 @@ mappa = folium.Map(location=[lat, lon], zoom_start=13)
 if location:
     lat, lon, formatted_address = get_geocode(location)
     lat, lon = float(lat), float(lon) if lat and lon else (None, None)
-    if lat and lon:
+    #if lat and lon:
         #heatmap_data = algoritmo.generate_dummy_heatmap_data(lat, lon)
         #heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data] if heatmap_data else []
 
