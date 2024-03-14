@@ -13,7 +13,7 @@ import sklearn
 filename = 'model&preproc.pkl'
 with open(filename, 'rb') as infile:
     loaded_model, preproc = pickle.load(infile)
-#X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
+X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
 #bathrooms              object
 #rooms                  object
 #surface               float64
@@ -24,9 +24,9 @@ with open(filename, 'rb') as infile:
 #ascensore              object
 #garage                 object
 #piano                 float64
-#X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
-#X_norm = preproc.transform(X)
-#prezzo = loaded_model.predict(X_norm)
+X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
 #print(prezzo)
 #fine dev
 
@@ -125,19 +125,12 @@ st.sidebar.write(f'Garage: {garage}')
 st.sidebar.write(f'Efficienza Energetica: Classe {energy_efficiency}')
 st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 
-# Crea array per modello ML
-X = ['lat', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
-X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
-X_norm = preproc.transform(X)
-prezzo = loaded_model.predict(X_norm)
-
-
 # Main section
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
-st.write(f'### Prezzo al metro quadro: {int(round(prezzo[0],0)):,} €/m²\n')
-st.write(f'Prezzo: {int(round(prezzo[0]*max_space, 0)):,} €')
+st.write(f'## Prezzo al metro quadro: {int(round(prezzo[0],0)):,} €/m²\n')
+st.write(f'### Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 
 # Crea una mappa centrata sull'indirizzo specificato
 mappa = folium.Map(location=[lat, lon], zoom_start=13)
