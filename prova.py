@@ -67,7 +67,7 @@ if location:
     lat, lon, formatted_address = get_geocode(location)
     lat, lon = float(lat), float(lon) if lat and lon else (None, None)
     if lat and lon and formatted_address:
-        st.sidebar.write(f"Indirizzo inserito: {formatted_address}")
+        st.sidebar.write(f"{formatted_address}")
         st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
     else:
         st.sidebar.write("Indirizzo non trovato o non valido")
@@ -139,14 +139,15 @@ mappa = folium.Map(location=[lat, lon], zoom_start=13)
 
 # Ottieni i dati per la heatmap
 if location:
-    lat, lon = get_geocode(location)
+    lat, lon, formatted_address = get_geocode(location)
+    lat, lon = float(lat), float(lon) if lat and lon else (None, None)
     if lat and lon:
-        lat, lon = float(lat), float(lon)
         heatmap_data = algoritmo.generate_dummy_heatmap_data(lat, lon)
-        heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data]
+        heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data] if heatmap_data else []
 
 # Aggiungi la heatmap alla mappa
-#HeatMap(heat_data).add_to(mappa)
+if heat_data:
+    HeatMap(heat_data).add_to(mappa)
 
 # Visualizza la mappa in Streamlit
 st_folium(mappa, width=700, height=500)
