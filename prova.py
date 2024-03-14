@@ -43,16 +43,16 @@ def load_data(n_rows):
     
 # Funzione per ottenere le coordinate geografiche da un indirizzo
 def get_geocode(address):
-    # Qui puoi usare l'API di Google Maps o un'altra API di geocoding
-    # Ad esempio, con OpenStreetMap (Nominatim API):
     url = f"https://nominatim.openstreetmap.org/search?format=json&q={address}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
         if len(data) > 0:
+            formatted_address = data[0].get('display_name', '')  # Ottiene l'indirizzo formattato
             lat = data[0]['lat']
             lon = data[0]['lon']
-            return lat, lon
+            return lat, lon, formatted_address
+    return None, None, None
 
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Your App Title')
@@ -64,12 +64,14 @@ st.sidebar.header('Parametri di Ricerca Immobili')
 location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 
 if location:
-    lat, lon = get_geocode(location)
-    lat, lon = float(lat), float(lon)  # Assicurati che siano float
-    if lat and lon:
+    lat, lon, formatted_address = get_geocode(location)
+    lat, lon = float(lat), float(lon) if lat and lon else (None, None)
+    if lat and lon and formatted_address:
+        st.sidebar.write(f"Indirizzo inserito: {formatted_address}")
         st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
     else:
         st.sidebar.write("Indirizzo non trovato o non valido")
+
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
