@@ -75,12 +75,15 @@ if location:
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
+surface = np.linspace(min_space, max_space, 5)
 
 # 3. Number of Rooms Input
 min_rooms, max_rooms = st.sidebar.slider('Seleziona Range Numero di Stanze', 1, 10, (2, 4))
+rooms = np.arange(min_rooms, max_rooms + 1)
 
 # 4. Number of Bathrooms Input
 min_bathrooms, max_bathrooms = st.sidebar.slider('Seleziona Range Numero di Bagni', 1, 5, (1, 2))
+bathrooms = np.arange(min_bathrooms, max_bathrooms + 1)
 
 # 5. Condition Input
 condition_s = st.sidebar.selectbox('Stato', ['Buono', 'Nuova Costruzione', 'Da Ristrutturare'])
@@ -88,13 +91,16 @@ condition_dict = {"Da Ristrutturare":0, "Buono":1, "buone condizioni":1,
             "ottimo":2, "ottime condizioni":2, "recente costruzione":2, "di ristrutturazione":3, "ristrutturato":3, "nuovo":4,
             "in costruzione":4, "nuove costruzioni":4, "Nuova Costruzione":4}
 condition = condition_dict[condition_s]
+
 # 6. Floor Input
 floor_s = st.sidebar.selectbox('Piano', ['Seminterrato', 'Piano terra', 'Intermedi', 'Attico'])
 floor_dict = {"Piano terra":0, "rialzato":1, "Seminterrato":1, "Intermedi":2, "Attico":3}
 floor =  floor_dict[floor_s]
+
 # 7. Elevator Input
 elevator_s = st.sidebar.selectbox('Ascensore', ['SI', 'NO'])
 elevator = 1 if elevator_s=="SI" else 0
+
 # 8. Garage Input
 garage_s = st.sidebar.selectbox('Garage', ['SI', 'NO'])
 garage = 1 if garage_s=="SI" else 0
@@ -147,7 +153,7 @@ X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "pia
 #ascensore              object
 #garage                 object
 #piano                 float64
-X = np.array([[150.0, lat, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
 X_norm = preproc.transform(X)
 prezzo = loaded_model.predict(X_norm)
 
