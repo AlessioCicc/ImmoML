@@ -157,7 +157,7 @@ for surface in range(min_space, max_space):
     X_norm = preproc.transform(X)
     X_norm_list.append(X_norm)
 
-prezzo = loaded_model.predict(X_norm_list)
+prezzo = loaded_model.predict(2)
 
 
 
