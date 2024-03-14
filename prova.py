@@ -157,4 +157,4 @@ if location:
 #    HeatMap(heat_data).add_to(mappa)
 
 # Visualizza la mappa in Streamlit
-#st_folium(mappa, width=700, height=500)
+st_folium(mappa, width=700, height=500)
