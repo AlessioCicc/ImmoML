@@ -153,8 +153,8 @@ if location:
         #heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data] if heatmap_data else []
 
 # Aggiungi la heatmap alla mappa
-if heat_data:
-    HeatMap(heat_data).add_to(mappa)
+#if heat_data:
+#    HeatMap(heat_data).add_to(mappa)
 
 # Visualizza la mappa in Streamlit
 st_folium(mappa, width=700, height=500)
