@@ -125,6 +125,13 @@ st.sidebar.write(f'Garage: {garage}')
 st.sidebar.write(f'Efficienza Energetica: Classe {energy_efficiency}')
 st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 
+# Crea array per modello ML
+X = ['lat', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
+X = np.array([[150.0, 41.876, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+
+
 # Main section
 st.title('Applicazione Streamlit per Ricerca Immobili')
 
@@ -132,7 +139,7 @@ st.title('Applicazione Streamlit per Ricerca Immobili')
 st.write(f'Prezzo al metro quadro: {int(round(prezzo[0],0))} € / m²\n Prezzo: {int(round(prezzo[0]*max_space, 0))} €')
 
 # Display data on the app
-st.write('### Risultato', 10) #processed_data)
+st.write('### Risultato', prezzo)
 
 # Crea una mappa centrata sull'indirizzo specificato
 mappa = folium.Map(location=[lat, lon], zoom_start=13)
@@ -142,8 +149,8 @@ if location:
     lat, lon, formatted_address = get_geocode(location)
     lat, lon = float(lat), float(lon) if lat and lon else (None, None)
     if lat and lon:
-        heatmap_data = algoritmo.generate_dummy_heatmap_data(lat, lon)
-        heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data] if heatmap_data else []
+        #heatmap_data = algoritmo.generate_dummy_heatmap_data(lat, lon)
+        #heat_data = [[row['lat'], row['lon'], row['value']] for row in heatmap_data] if heatmap_data else []
 
 # Aggiungi la heatmap alla mappa
 if heat_data:
