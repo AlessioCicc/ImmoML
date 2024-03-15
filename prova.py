@@ -55,7 +55,7 @@ def get_geocode(address):
     return None, None, None
 
 # Streamlit page configuration (optional)
-st.set_page_config(page_title='Your App Title')
+st.set_page_config(page_title='Ricerca Immobili')
 
 # Sidebar for user inputs
 st.sidebar.header('Parametri di Ricerca Immobili')
@@ -129,7 +129,7 @@ st.sidebar.write(f'Efficienza Energetica: Classe {energy_efficiency}')
 st.sidebar.write(f'Anno di Costruzione: da {min_year} a {max_year}')
 
 # Main section
-st.title('Applicazione Streamlit per Ricerca Immobili')
+st.title('Applicazione per Ricerca Immobili')
 
 # Placeholder for Data Display and Further Analysis
 st.write(f'# Prezzo al metro quadro: {int(round(prezzo[0],0)):,} €/m²\n')
