@@ -50,7 +50,7 @@ def get_geocode(address):
         response = requests.get(url)
         # ... gestione della risposta ...
     except requests.exceptions.RequestException as e:
-        print(f"Errore nella richiesta HTTP: {e}")
+        print(f"Errore nella richiesta HTTP: {e} dell'url {url}")
         return None, None, None
     
     if response.status_code == 200:
