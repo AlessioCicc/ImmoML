@@ -120,7 +120,8 @@ prezzo = loaded_model.predict(X_norm)
 
 # Display the inputs
 st.sidebar.write('### Parametri Selezionati')
-st.sidebar.write(f'Località: {location}')
+st.sidebar.write(f'Località: {formatted_address}')
+st.sidebar.write(f'Lat: {lat}; Lon: {lon}')
 st.sidebar.write(f'Superficie: da {min_space} a {max_space} mq')
 st.sidebar.write(f'Numero di Stanze: da {min_rooms} a {max_rooms}')
 st.sidebar.write(f'Numero di Bagni: da {min_bathrooms} a {max_bathrooms}')
