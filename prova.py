@@ -43,16 +43,25 @@ def load_data(n_rows):
     
 # Funzione per ottenere le coordinate geografiche da un indirizzo
 def get_geocode(address):
+    print(f"Indirizzo Originale: {address}")
     url = f"https://nominatim.openstreetmap.org/search?format=json&q={address}"
+    print(f"URL della Richiesta: {url}")
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
+        print(f"Risposta JSON: {data}") 
         if len(data) > 0:
             formatted_address = data[0].get('display_name', '')  # Ottiene l'indirizzo formattato
             lat = data[0]['lat']
             lon = data[0]['lon']
+            print(f"Indirizzo Formattato: {formatted_address}, Latitudine: {lat}, Longitudine: {lon}")
             return lat, lon, formatted_address
-    return None, None, None
+        else:
+            print("Nessun dato trovato per l'indirizzo fornito.")
+            return None, None, None
+    else:
+        print("La richiesta ha fallito.")
+    print("Ritorno None per latitudine, longitudine e indirizzo.")
 
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Ricerca Immobili')
@@ -120,7 +129,7 @@ prezzo = loaded_model.predict(X_norm)
 
 # Display the inputs
 st.sidebar.write('### Parametri Selezionati')
-st.sidebar.write(f'Località: {formatted_address}')
+st.sidebar.write(f'Indirizzo: {formatted_address}')
 st.sidebar.write(f'Lat: {lat}; Lon: {lon}')
 st.sidebar.write(f'Superficie: da {min_space} a {max_space} mq')
 st.sidebar.write(f'Numero di Stanze: da {min_rooms} a {max_rooms}')
