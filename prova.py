@@ -31,7 +31,7 @@ prezzo = loaded_model.predict(X_norm)
 #fine dev
 
 # Inizializza lat e lon con valori di default
-lat, lon = 41.8797737, 12.4674504  # Posizione di default (es. Roma)
+lat, lon, formatted_address = 41.8797737, 12.4674504, "None"  # Posizione di default (es. Roma)
 
 # Function to load data (dummy example)
 def load_data(n_rows):
