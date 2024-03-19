@@ -61,6 +61,7 @@ def get_geocode(address):
             return None, None, None
     else:
         print("La richiesta ha fallito.")
+        return None, None, None
     print("Ritorno None per latitudine, longitudine e indirizzo.")
 
 # Streamlit page configuration (optional)
