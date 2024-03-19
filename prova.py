@@ -65,7 +65,10 @@ location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 
 if location:
     lat, lon, formatted_address = get_geocode(location)
-    lat, lon = float(lat), float(lon) if lat and lon else (None, None)
+    if lat and lon:
+        lat, lon = float(lat), float(lon)
+    else:
+        lat, lon = None, None
     if lat and lon and formatted_address:
         st.sidebar.write(f"{formatted_address}")
         st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
