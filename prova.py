@@ -76,13 +76,17 @@ location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 if location:
     lat, lon, formatted_address = get_geocode(location)
     if lat and lon:
+        print("IF LOCATION: A")
         lat, lon = float(lat), float(lon)
     else:
+        print("IF LOCATION: B")
         lat, lon = None, None
     if lat and lon and formatted_address:
+        print("IF LOCATION: C")
         st.sidebar.write(f"{formatted_address}")
         st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
     else:
+        print("IF LOCATION: D")
         st.sidebar.write("Indirizzo non trovato o non valido")
 
 
