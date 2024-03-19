@@ -73,6 +73,23 @@ st.sidebar.header('Parametri di Ricerca Immobili')
 # 1. Location Input
 location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 
+if location:
+    lat, lon, formatted_address = get_geocode(location)
+    if lat and lon:
+        print("IF LOCATION: A")
+        lat, lon = float(lat), float(lon)
+    else:
+        print("IF LOCATION: B")
+        lat, lon = None, None
+    if lat and lon and formatted_address:
+        print("IF LOCATION: C")
+        st.sidebar.write(f"{formatted_address}")
+        st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
+    else:
+        print("IF LOCATION: D")
+        st.sidebar.write("Indirizzo non trovato o non valido")
+
+
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
 
@@ -135,22 +152,6 @@ st.title('Applicazione per Ricerca Immobili')
 # Placeholder for Data Display and Further Analysis
 st.write(f'# Prezzo al metro quadro: {int(round(prezzo[0],0)):,} €/m²\n')
 st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
-
-if location:
-    lat, lon, formatted_address = get_geocode(location)
-    if lat and lon:
-        print("IF LOCATION: A")
-        lat, lon = float(lat), float(lon)
-    else:
-        print("IF LOCATION: B")
-        lat, lon = None, None
-    if lat and lon and formatted_address:
-        print("IF LOCATION: C")
-        st.sidebar.write(f"{formatted_address}")
-        st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
-    else:
-        print("IF LOCATION: D")
-        st.sidebar.write("Indirizzo non trovato o non valido")
 
 # Ottieni i dati dal modello ML
 X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
