@@ -149,9 +149,6 @@ st.title('Applicazione per Ricerca Immobili')
 st.write(f'# Prezzo al metro quadro: {int(round(prezzo[0],0)):,} €/m²\n')
 st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 
-# Crea una mappa centrata sull'indirizzo specificato
-mappa = folium.Map(location=[lat, lon], zoom_start=13)
-
 # Ottieni i dati dal modello ML
 X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
 #bathrooms              object
