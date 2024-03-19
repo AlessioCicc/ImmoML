@@ -46,12 +46,7 @@ def get_geocode(address):
     print(f"Indirizzo Originale: {address}")
     url = f"https://nominatim.openstreetmap.org/search?format=json&q={address}"
     print(f"URL della Richiesta: {url}")
-    try:
-        response = requests.get(url)
-        # ... gestione della risposta ...
-    except requests.exceptions.RequestException as e:
-        print(f"Errore nella richiesta HTTP: {e} dell'url {url}")
-        return None, None, None
+    response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
         print(f"Risposta JSON: {data}") 
