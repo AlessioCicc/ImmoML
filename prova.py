@@ -44,7 +44,7 @@ def load_data(n_rows):
 # Funzione per ottenere le coordinate geografiche da un indirizzo
 def get_geocode(address):
     print(f"Indirizzo Originale: {address}")
-    url = "https://nominatim.openstreetmap.org/search?format=json&q={address}"
+    url = f"https://nominatim.openstreetmap.org/search?format=json&q={address}"
     print(f"URL della Richiesta: {url}")
     response = requests.get(url)
     if response.status_code == 200:
@@ -64,15 +64,6 @@ def get_geocode(address):
         return None, None, None
     print("Ritorno None per latitudine, longitudine e indirizzo.")
 
-# Streamlit page configuration (optional)
-st.set_page_config(page_title='Ricerca Immobili')
-
-# Sidebar for user inputs
-st.sidebar.header('Parametri di Ricerca Immobili')
-
-# 1. Location Input
-location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
-
 if location:
     lat, lon, formatted_address = get_geocode(location)
     if lat and lon:
@@ -89,6 +80,15 @@ if location:
         print("IF LOCATION: D")
         st.sidebar.write("Indirizzo non trovato o non valido")
 
+
+# Streamlit page configuration (optional)
+st.set_page_config(page_title='Ricerca Immobili')
+
+# Sidebar for user inputs
+st.sidebar.header('Parametri di Ricerca Immobili')
+
+# 1. Location Input
+location = st.sidebar.text_input('Inserisci Indirizzo', key="address_input")
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
