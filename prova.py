@@ -44,7 +44,7 @@ def load_data(n_rows):
 # Funzione per ottenere le coordinate geografiche da un indirizzo
 def get_geocode(address):
     print(f"Indirizzo Originale: {address}")
-    url = f"https://nominatim.openstreetmap.org/search?format=json&q={address}"
+    url = "https://nominatim.openstreetmap.org/search?format=json&q={address}"
     print(f"URL della Richiesta: {url}")
     response = requests.get(url)
     if response.status_code == 200:
