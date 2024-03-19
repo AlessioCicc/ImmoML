@@ -52,7 +52,6 @@ def get_geocode(address):
     except requests.exceptions.RequestException as e:
         print(f"Errore nella richiesta HTTP: {e} dell'url {url}")
         return None, None, None
-    
     if response.status_code == 200:
         data = response.json()
         print(f"Risposta JSON: {data}") 
