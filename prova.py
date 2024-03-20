@@ -6,8 +6,12 @@ import requests
 import folium
 from folium.plugins import HeatMap
 from streamlit_folium import st_folium
+from opencage.geocoder import OpenCageGeocode
 import pickle
 import sklearn
+
+key = 'a7bd6bd2c7604ba287219157b6bc946b'
+geocoder = OpenCageGeocode(key)
 
 #dev
 filename = 'model&preproc.pkl'
@@ -43,26 +47,15 @@ def load_data(n_rows):
     
 # Funzione per ottenere le coordinate geografiche da un indirizzo
 def get_geocode(address):
-    print(f"Indirizzo Originale: {address}")
-    url = f"https://nominatim.openstreetmap.org/search?format=json&q={address}"
-    print(f"URL della Richiesta: {url}")
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        print(f"Risposta JSON: {data}") 
-        if len(data) > 0:
-            formatted_address = data[0].get('display_name', '')  # Ottiene l'indirizzo formattato
-            lat = data[0]['lat']
-            lon = data[0]['lon']
-            print(f"Indirizzo Formattato: {formatted_address}, Latitudine: {lat}, Longitudine: {lon}")
-            return lat, lon, formatted_address
-        else:
-            print("Nessun dato trovato per l'indirizzo fornito.")
-            return None, None, None
-    else:
-        print("La richiesta ha fallito.")
-        return None, None, None
-    print("Ritorno None per latitudine, longitudine e indirizzo.")
+    results = geocoder.geocode(query)
+    lat = results[0]['geometry']['lat']
+    lon = results[0]['geometry']['lng']
+    formatted_address = "Ciao" #data[0].get('display_name', '')
+    print(u'%f;%f;%s;%s' % (results[0]['geometry']['lat'],
+                            results[0]['geometry']['lng'],
+                            results[0]['components']['country_code'],
+                            results[0]['annotations']['timezone']['name']))
+    return lat, lon, formatted_address
 
 # Streamlit page configuration (optional)
 st.set_page_config(page_title='Ricerca Immobili')
