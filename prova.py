@@ -50,7 +50,7 @@ def get_geocode(address):
     results = geocoder.geocode(query)
     lat = results[0]['geometry']['lat']
     lon = results[0]['geometry']['lng']
-    formatted_address = "Ciao" #data[0].get('display_name', '')
+    formatted_address = results[0]['formatted']
     print(u'%f;%f;%s;%s' % (results[0]['geometry']['lat'],
                             results[0]['geometry']['lng'],
                             results[0]['components']['country_code'],
