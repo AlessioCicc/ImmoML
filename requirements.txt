@@ -3,4 +3,5 @@ folium
 pandas
 streamlit-folium
 scikit-learn
+opencage
 # altre librerie di cui hai bisogno
