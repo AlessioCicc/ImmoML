@@ -18,16 +18,17 @@ filename = 'model&preproc.pkl'
 with open(filename, 'rb') as infile:
     loaded_model, preproc = pickle.load(infile)
 X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
-#bathrooms              object
-#rooms                  object
 #surface               float64
-#price                 float64
 #latitude              float64
 #longitude             float64
+#bathrooms              object
+#rooms                  object
 #condition              object
+#piano                 float64
 #ascensore              object
 #garage                 object
-#piano                 float64
+#price                 float64
+
 X = np.array([[150.0, 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
 X_norm = preproc.transform(X)
 prezzo = loaded_model.predict(X_norm)
@@ -51,10 +52,6 @@ def get_geocode(address):
     lat = results[0]['geometry']['lat']
     lon = results[0]['geometry']['lng']
     formatted_address = results[0]['formatted']
-    print(u'%f;%f;%s;%s' % (results[0]['geometry']['lat'],
-                            results[0]['geometry']['lng'],
-                            results[0]['components']['country_code'],
-                            results[0]['annotations']['timezone']['name']))
     return lat, lon, formatted_address
 
 # Streamlit page configuration (optional)
@@ -77,7 +74,6 @@ if location:
         st.sidebar.write(f"Latitudine: {lat}, Longitudine: {lon}")
     else:
         st.sidebar.write("Indirizzo non trovato o non valido")
-
 
 # 2. Space Range Input
 min_space, max_space = st.sidebar.slider('Seleziona Range Superficie (in mq)', 10, 500, (30, 100))
@@ -143,17 +139,17 @@ st.write(f'# Prezzo al metro quadro: {int(round(prezzo[0],0)):,} €/m²\n')
 st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 
 # Ottieni i dati dal modello ML
-X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
-#bathrooms              object
-#rooms                  object
+#X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
 #surface               float64
-#price                 float64
 #latitude              float64
 #longitude             float64
+#bathrooms              object
+#rooms                  object
 #condition              object
+#piano                 float64
 #ascensore              object
 #garage                 object
-#piano                 float64
+#price                 float64
 
 X_norm_list = [] 
 for surface in range(min_space, max_space): 
