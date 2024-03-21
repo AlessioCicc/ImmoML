@@ -150,7 +150,7 @@ surface_values = np.linspace(min_space, max_space, 3, dtype=int) #tre valori equ
 st.write('Valori di surface_values:', surface_values)
 bathrooms_values = np.array(range(min_bathrooms, max_bathrooms + 1), dtype=object) #tutti i valori compresi tra min_bathrooms e max_bathrooms
 st.write('Valori di bathrooms_values:', bathrooms_values)
-rooms_values = range(min_rooms, max_rooms + 1, dtype=object) #tutti i valori compresi tra min_rooms e max_rooms
+rooms_values = np.array(range(min_rooms, max_rooms + 1), dtype=object) #tutti i valori compresi tra min_rooms e max_rooms
 
 X_norm_list = [] 
 for surface in surface_values:
