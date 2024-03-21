@@ -145,15 +145,19 @@ st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 #garage                 object
 #price                 float64
 
-# Generazione di tre valori equidistanti all'interno del range tra min_rooms e max_rooms
-surface_values = np.linspace(min_rooms, max_rooms, 3, dtype=int)
+# Generazione liste di valori 
+surface_values = np.linspace(min_space, max_space, 3, dtype=int) #tre valori equidistanti all'interno del range tra min_space e max_space
 st.write('Valori di surface_values:', surface_values)
+bathrooms_values = list(range(min_bathrooms, max_bathrooms + 1)) #tutti i valori compresi tra min_bathrooms e max_bathrooms
+st.write('Valori di bathrooms_values:', bathrooms_values)
+rooms_values = list(range(min_rooms, max_rooms + 1)) #tutti i valori compresi tra min_rooms e max_rooms
 
 X_norm_list = [] 
-for surface in surface_values: 
-    X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
-    X_norm = preproc.transform(X)
-    X_norm_list.append(X_norm)
+for surface in surface_values:
+    for bathrooms in bathrooms_values:
+        X = np.array([[surface, lat, lon, bathrooms, 4, 3, 0, 0, 1],], dtype=object)
+        X_norm = preproc.transform(X)
+        X_norm_list.append(X_norm)
 
 prezzo = loaded_model.predict(X_norm)
 
