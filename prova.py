@@ -151,14 +151,14 @@ st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 #garage                 object
 #price                 float64
 
+surface_values = [80, 90, 100]
 X_norm_list = [] 
-for surface in range(min_space, max_space): 
-    X = np.array([[100, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
+for surface in surface_values: 
+    X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
     X_norm = preproc.transform(X)
     X_norm_list.append(X_norm)
 
 prezzo = loaded_model.predict(X_norm)
 
-
 # Mostra i valori della variabile X
-st.write('Valori di X:', X)
+st.write('Valori di X:', X_norm_list)
