@@ -155,7 +155,7 @@ rooms_values = np.array(range(min_rooms, max_rooms + 1), dtype=object) #tutti i 
 X_norm_list = [] 
 for surface in surface_values:
     for bathrooms in bathrooms_values:
-        X = np.array([[surface, lat, lon, bathrooms, 4, 3, 0, 0, 1],], dtype=object)
+        X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
         X_norm = preproc.transform(X)
         X_norm_list.append(X_norm)
 
