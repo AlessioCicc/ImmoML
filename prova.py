@@ -158,3 +158,7 @@ for surface in range(min_space, max_space):
     X_norm_list.append(X_norm)
 
 prezzo = loaded_model.predict(X_norm)
+
+
+# Mostra i valori della variabile X
+st.write('Valori di X:', X)
