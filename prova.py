@@ -111,12 +111,6 @@ energy_efficiency = st.sidebar.select_slider('Efficienza Energetica', options=['
 current_year = pd.Timestamp.now().year
 min_year, max_year = st.sidebar.slider('Range Anno di Costruzione', 1900, current_year, (1980, current_year))
 
-# Chiama la funzione process_data
-X = np.array([[max_space, lat, lon, max_bathrooms, max_rooms, condition, floor, elevator, garage],], dtype=object)
-X_norm = preproc.transform(X)
-prezzo = loaded_model.predict(X_norm)
-#processed_data = algoritmo.process_data(location, min_space, max_space, min_rooms, max_rooms, min_bathrooms, max_bathrooms, condition, floor, elevator, garage, energy_efficiency, min_year, max_year)
-
 # Display the inputs
 st.sidebar.write('### Parametri Selezionati')
 st.sidebar.write(f'Indirizzo: {formatted_address}')
@@ -151,7 +145,10 @@ st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 #garage                 object
 #price                 float64
 
-surface_values = [80, 90, 100]
+# Generazione di tre valori equidistanti all'interno del range tra min_rooms e max_rooms
+surface_values = np.linspace(min_rooms, max_rooms, 3, dtype=int)
+st.write('Valori di surface_values:', surface_values)
+
 X_norm_list = [] 
 for surface in surface_values: 
     X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
