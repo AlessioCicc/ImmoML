@@ -148,7 +148,7 @@ st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 # Generazione liste di valori 
 surface_values = np.linspace(min_space, max_space, 3, dtype=int) #tre valori equidistanti all'interno del range tra min_space e max_space
 st.write('Valori di surface_values:', surface_values)
-bathrooms_values = min_bathrooms #range(min_bathrooms, max_bathrooms + 1) #tutti i valori compresi tra min_bathrooms e max_bathrooms
+bathrooms_values = [1, 2] #range(min_bathrooms, max_bathrooms + 1) #tutti i valori compresi tra min_bathrooms e max_bathrooms
 st.write('Valori di bathrooms_values:', bathrooms_values)
 rooms_values = range(min_rooms, max_rooms + 1) #tutti i valori compresi tra min_rooms e max_rooms
 
