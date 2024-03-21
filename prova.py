@@ -47,7 +47,7 @@ def load_data(n_rows):
     
 # Funzione per ottenere le coordinate geografiche da un indirizzo
 def get_geocode(address):
-    results = geocoder.geocode(query)
+    results = geocoder.geocode(address)
     lat = results[0]['geometry']['lat']
     lon = results[0]['geometry']['lng']
     formatted_address = results[0]['formatted']
