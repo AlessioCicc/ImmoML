@@ -159,12 +159,33 @@ for surface in surface_values:
 
 prezzo = loaded_model.predict(X_norm)
 
-# Mostra i valori della variabile X
-st.write('Valori di X:', X_norm_list)
-
 # Conversione di X_norm_list in un DataFrame per una migliore visualizzazione
 X_norm_df = pd.DataFrame([x.flatten() for x in X_norm_list])
 
 # Mostra la tabella nel tuo app Streamlit
 st.write("Visualizzazione di X_norm_list:")
 st.dataframe(X_norm_df)
+
+# Definisci il range di latitudine e longitudine
+lat_range = np.linspace(lat - 0.05, lat + 0.05, num=10) # Modifica i valori secondo le tue esigenze
+lon_range = np.linspace(lon - 0.05, lon + 0.05, num=10)
+
+# Prepara la lista per le previsioni
+predictions = []
+
+# Calcola le previsioni per ogni punto nella griglia
+for lat_point in lat_range:
+    for lon_point in lon_range:
+        X = np.array([[surface, lat_point, lon_point, bathrooms, rooms, condition, piano, ascensore, garage]], dtype=object)
+        X_norm = preproc.transform(X)
+        price = loaded_model.predict(X_norm)
+        predictions.append([lat_point, lon_point, price[0]])  # Assumi che price[0] sia il prezzo previsto
+
+# Crea la mappa
+map = folium.Map(location=[lat, lon], zoom_start=13)
+
+# Aggiungi la heatmap
+HeatMap(predictions).add_to(map)
+
+# Visualizza la mappa in Streamlit
+st_folium(map, width=700, height=500)
