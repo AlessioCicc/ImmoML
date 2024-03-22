@@ -163,7 +163,7 @@ prezzo = loaded_model.predict(X_norm)
 st.write('Valori di X:', X_norm_list)
 
 # Conversione di X_norm_list in un DataFrame per una migliore visualizzazione
-X_norm_df = pd.DataFrame([x.flatten() for x in X_norm_list], columns=['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', 'piano', 'ascensore', 'garage'])
+X_norm_df = pd.DataFrame([x.flatten() for x in X_norm_list])
 
 # Mostra la tabella nel tuo app Streamlit
 st.write("Visualizzazione di X_norm_list:")
