@@ -176,7 +176,7 @@ predictions = []
 # Calcola le previsioni per ogni punto nella griglia
 for lat_point in lat_range:
     for lon_point in lon_range:
-        X = np.array([[surface, lat_point, lon_point, bathrooms, rooms, condition, piano, ascensore, garage]], dtype=object)
+        X = np.array([[surface, lat_point, lon_point, 2, 4, 3, 0, 0, 1]], dtype=object)
         X_norm = preproc.transform(X)
         price = loaded_model.predict(X_norm)
         predictions.append([lat_point, lon_point, price[0]])  # Assumi che price[0] sia il prezzo previsto
