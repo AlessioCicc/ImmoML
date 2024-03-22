@@ -147,9 +147,7 @@ st.write(f'## Prezzo abitazione: {int(round(prezzo[0]*max_space, 0)):,} €')
 
 # Generazione liste di valori 
 surface_values = np.linspace(min_space, max_space, 3, dtype=int) #tre valori equidistanti all'interno del range tra min_space e max_space
-st.write('Valori di surface_values:', surface_values)
 bathrooms_values = np.array(range(min_bathrooms, max_bathrooms + 1), dtype=object) #tutti i valori compresi tra min_bathrooms e max_bathrooms
-st.write('Valori di bathrooms_values:', bathrooms_values)
 rooms_values = np.array(range(min_rooms, max_rooms + 1), dtype=object) #tutti i valori compresi tra min_rooms e max_rooms
 
 X_norm_list = [] 
@@ -163,3 +161,10 @@ prezzo = loaded_model.predict(X_norm)
 
 # Mostra i valori della variabile X
 st.write('Valori di X:', X_norm_list)
+
+# Conversione di X_norm_list in un DataFrame per una migliore visualizzazione
+X_norm_df = pd.DataFrame([x.flatten() for x in X_norm_list], columns=['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', 'piano', 'ascensore', 'garage'])
+
+# Mostra la tabella nel tuo app Streamlit
+st.write("Visualizzazione di X_norm_list:")
+st.dataframe(X_norm_df)
