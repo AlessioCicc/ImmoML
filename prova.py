@@ -103,6 +103,7 @@ elevator = 1 if elevator_s=="SI" else 0
 # 8. Garage Input
 garage_s = st.sidebar.selectbox('Garage', ['SI', 'NO'])
 garage = 1 if garage_s=="SI" else 0
+
 # 9. Energy Efficiency Range Input
 # Assuming energy efficiency classes range from A to G
 energy_efficiency = st.sidebar.select_slider('Efficienza Energetica', options=['A', 'B', 'C', 'D', 'E', 'F', 'G'])
@@ -153,9 +154,11 @@ rooms_values = np.array(range(min_rooms, max_rooms + 1), dtype=object) #tutti i 
 X_norm_list = [] 
 for surface in surface_values:
     for bathrooms in bathrooms_values:
-        X = np.array([[surface, lat, lon, 2, 4, 3, 0, 0, 1],], dtype=object)
-        X_norm = preproc.transform(X)
-        X_norm_list.append(X_norm)
+        for rooms in rooms_values:
+            #X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
+            X = np.array([[surface, lat, lon, bathrooms, 4, 3, 0, 0, 1],], dtype=object)
+            X_norm = preproc.transform(X)
+            X_norm_list.append(X_norm)
 
 prezzo = loaded_model.predict(X_norm)
 
