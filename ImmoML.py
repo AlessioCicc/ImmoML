@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import json
 import pandas as pd
 import pickle as pkl
-
+import re
 
 #costanti
 FLOOR_MAPPING = {
@@ -121,6 +121,32 @@ def verify_floor(row, column1, column2):
         return floors[0]
     else:
         return None
+def convert_to_int_with_plus_handling(value):
+    try:
+        if isinstance(value, str) and value.endswith("+"):
+            # Remove the '+' and convert to int, then add 1
+            return int(value[:-1]) + 1
+        else:
+            return int(value)
+    except ValueError:
+        return None
+
+# Function to extract room number from featureList
+def extract_rooms_from_featurelist(feature_list):
+    for feature in feature_list:
+        if feature['type'] == 'rooms':
+            return convert_to_int_with_plus_handling(feature['compactLabel'])
+    return None
+
+# Function to merge room information and create the 'rooms_number' column
+def merge_room_info(row):
+    feature_list_rooms = extract_rooms_from_featurelist(row['featureList'])
+    rooms = convert_to_int_with_plus_handling(row['rooms'])
+
+    if rooms is not None and feature_list_rooms is not None and rooms != feature_list_rooms:
+        print(f"Warning: Discrepancy in room count at index {row.name}")
+
+    return rooms if rooms is not None else feature_list_rooms
 
 # Function to extract the 'value' and convert it to integer
 def extract_and_convert_to_int(item):
@@ -136,14 +162,81 @@ def extract_and_convert_to_int(item):
         print(f"Value cannot be converted to integer in item: {item}")
     return None  # Return None if conversion is not possible
 
+# Function to extract elevator information from featureList
+def extract_elevator_from_featurelist(feature_list):
+    for feature in feature_list:
+        if feature['type'].lower() == 'elevator':
+            return feature['compactLabel'].lower() == 'si'  # Convert to lowercase for case independence
+    return None  # Return None if no elevator info is found
+
+# Function to merge elevator information and create the 'elevator_present' column
+def merge_elevator_info(row):
+    feature_list_elevator = extract_elevator_from_featurelist(row['featureList'])
+    
+    # Convert the values in "elevator" column to boolean, ensuring case independence
+    elevator_column_value = None
+    elevator_value = str(row['elevator']).lower()  # Convert to lowercase
+    if elevator_value == 'vero':
+        elevator_column_value = True
+    elif elevator_value == 'falso':
+        elevator_column_value = False
+
+    # If there's a discrepancy, handle it based on your preference
+    if feature_list_elevator is not None and elevator_column_value is not None:
+        if feature_list_elevator != elevator_column_value:
+            print(f"Warning: Discrepancy in elevator information at index {row.name}")
+    
+    # Decide which value to prefer in case of discrepancy or if one is None
+    return elevator_column_value if elevator_column_value is not None else feature_list_elevator
+
+def extract_surface_int(value):
+    if pd.isnull(value):
+        return None
+    try:
+        # Use regular expression to find the first sequence of digits
+        match = re.search(r'\d+', value)
+        return int(match.group()) if match else None
+    except ValueError:
+        return None
+
+def extract_surface_from_featurelist(feature_list):
+    if not isinstance(feature_list, list):  # Check if the input is a list
+        return None
+    for feature in feature_list:
+        if isinstance(feature, dict) and feature.get('type') == 'surface':
+            # Use regular expression to find the first sequence of digits in the 'label' value
+            match = re.search(r'\d+', feature.get('label', ''))
+            return int(match.group()) if match else None
+    return None  # Return None if no 'surface' type is found
+
+def surface_fusion(df):
+    # Apply extraction functions to the relevant columns
+    df['surface_int_from_surface'] = df['surface'].apply(extract_surface_int)
+    df['surface_int_from_surfaceValue'] = df['surfaceValue'].apply(extract_surface_int)
+    df['surface_int_from_featureList'] = df['featureList'].apply(extract_surface_from_featurelist)
+    # Compare and assign values to surface_int column according to the provided logic
+    for index, row in df.iterrows():
+        surface_values = [row['surface_int_from_surface'], row['surface_int_from_surfaceValue'], row['surface_int_from_featureList']]
+        if len(set([v for v in surface_values if v is not None])) <= 1:  # All values are equal or None
+            df.loc[index, 'surface_int'] = row['surface_int_from_surfaceValue']  # Prefer surfaceValue, but they are all equal here
+        else:
+            print(f"WARNING: surface: Values are not equal at index: {index}")
+            # Prefer surfaceValue unless it's None, then surface, then featureList
+            df.loc[index, 'surface_int'] = row['surface_int_from_surfaceValue'] or row['surface_int_from_surface'] or row['surface_int_from_featureList']
+
+    # Dropping the temporary columns used for comparisons
+    df.drop(['surface', 'surfaceValue', 'surface_int_from_surface', 'surface_int_from_surfaceValue', 'surface_int_from_featureList'], axis=1, inplace=True)
+
+    return df
+
 def columns_fusion(properties_df_):
     properties_df_['bathrooms_number_verified'] = properties_df_.apply(verify_bathrooms, axis=1)
     properties_df_.drop(columns=['bathrooms', 'ga4Bathrooms'], inplace=True)
 
-    properties_df_['floor_verified'] = properties_df_.apply(verify_floor, column1='floor', column2='featureList', axis=1)
+    properties_df_['floor_int'] = properties_df_.apply(verify_floor, column1='floor', column2='featureList', axis=1)
     properties_df_.drop(columns=['floor'], inplace=True)
 
-    properties_df_['floors_int'] = properties_df_['floors'].apply(convert_floor_description_to_int)
+    properties_df_['floors#_int'] = properties_df_['floors'].apply(convert_floor_description_to_int)
     properties_df_.drop(columns=['floors'], inplace=True)
 
     for index, row in properties_df_.iterrows():
@@ -152,6 +245,17 @@ def columns_fusion(properties_df_):
     properties_df_.drop(columns=['condition'], inplace=True)
 
     properties_df_['price_int'] = properties_df_["price"].apply(extract_and_convert_to_int)
+    properties_df_.drop(columns=['price'], inplace=True)
+
+    properties_df_['rooms_number_int'] = properties_df_.apply(merge_room_info, axis=1)
+    properties_df_.drop(columns=['rooms'], inplace=True)
+    
+    properties_df_['elevator_bool'] = properties_df_.apply(merge_elevator_info, axis=1)
+    properties_df_.drop(columns=['elevator'], inplace=True)
+
+    properties_df_ = surface_fusion(properties_df_)
+    #creare una funzione generica per la fusione dei dati
+    #typology, typologyV2,typologyGA4Translation,ga4features, category,energy,photo,location,balcony,featureList, ga4Garage,terrace,basement,auction
 
     import pdb; pdb.set_trace() 
 
@@ -212,11 +316,13 @@ def check_for_features_possible_combos_part2(script_tags):
     # Convert the list of dictionaries into a DataFrame
     properties_df = pd.DataFrame(all_properties_data)
     columns_to_drop = ["income", "caption"]
-    columns_to_move = ["multimedia", "description", "photo", "furniture"]
+    columns_to_move = ["multimedia", "description", "photo", "furniture", "typology"]
     auxiliary_df = properties_df[columns_to_move].copy()
-    properties_df.drop(columns=columns_to_drop, inplace=True)
+    properties_df.drop(columns=columns_to_drop+columns_to_move, inplace=True)
 
     columns_fusion(properties_df)
+    
+    properties_df.drop(properties_df[(properties_df['auction_bool'] == True) | (properties_df['Residential_bool'] == False)].index, inplace=True)
     
     import pdb; pdb.set_trace()
     return properties_df, auxiliary_df
