@@ -152,15 +152,23 @@ bathrooms_values = np.array(range(min_bathrooms, max_bathrooms + 1), dtype=objec
 rooms_values = np.array(range(min_rooms, max_rooms + 1), dtype=object) #tutti i valori compresi tra min_rooms e max_rooms
 
 
-X = np.array([surface_values, lat, lon, bathrooms_values, 4, 3, 0, 0, 1]).T
-X_norm = preproc.transform(X)
-prezzo = loaded_model.predict(X_norm)
-st.write("X_norm:")
-st.write(X_norm)
-X = np.array([1,2,3,4]).T
-X_norm = preproc.transform(X)
-st.write("X_norm:")
-st.write(X_norm)
+
+
+X_norm_list = [] 
+for surface in surface_values:
+    for bathrooms in bathrooms_values:
+        for rooms in rooms_values:
+            #X = ['surface', 'latitude', 'longitude', 'bathrooms', 'rooms', 'condition', "piano", "ascensore", "garage"]
+            X = np.array([[surface, lat, lon, bathrooms, 4, 3, 0, 0, 1],], dtype=object)
+            X_norm = preproc.transform(X)
+            X_norm_list.append(X_norm)
+
+# Conversione di X_norm_list in un DataFrame per una migliore visualizzazione
+X_norm_df = pd.DataFrame([x.flatten() for x in X_norm_list])
+
+# Mostra la tabella nel tuo app Streamlit
+st.write("Visualizzazione di X_norm_list:")
+st.dataframe(X_norm_df)
 
 
 # Definisci il range di latitudine e longitudine
