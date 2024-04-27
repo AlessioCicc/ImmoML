@@ -167,8 +167,23 @@ for surface in surface_values:
 X_norm_df = pd.DataFrame([x.flatten() for x in X_norm_list])
 
 # Mostra la tabella nel tuo app Streamlit
-st.write("Visualizzazione di X_norm_list:")
-st.dataframe(X_norm_df)
+#st.write("Visualizzazione di X_norm_list:")
+#st.dataframe(X_norm_df)
+
+# TEMP
+X = np.array([[100.0, 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+st.write('X: {X}-- X_norm: {X_norm}-- Prezzo: {prezzo}')
+X = np.array([[150.0, 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+st.write('X: {X}-- X_norm: {X_norm}-- Prezzo: {prezzo}')
+X = np.array([[200.0, 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+st.write('X: {X}-- X_norm: {X_norm}-- Prezzo: {prezzo}')
+
 
 
 # Definisci il range di latitudine e longitudine
