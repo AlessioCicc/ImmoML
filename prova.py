@@ -183,6 +183,10 @@ X = np.array([[100.0, 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
 X_norm = preproc.transform(X)
 prezzo = loaded_model.predict(X_norm)
 st.write(f'X: {X}-- X_norm: {X_norm}-- Prezzo: {prezzo}')
+X = np.array([[[80.0, 100.0], 41.12, 12.5776, 2, 4, 3, 0, 0, 1],], dtype=object)
+X_norm = preproc.transform(X)
+prezzo = loaded_model.predict(X_norm)
+st.write(f'X: {X}-- X_norm: {X_norm}-- Prezzo: {prezzo}')
 
 
 
